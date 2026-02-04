@@ -1,3 +1,4 @@
+require('dotenv').config()
 const amqp = require('amqplib');
 
 let channel;
@@ -5,7 +6,7 @@ let channel;
 async function connect() {
     if (channel) return channel;
     try {
-        const connection = await amqp.connect('amqp://localhost');
+        const connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://localhost');
         channel = await connection.createChannel();
         console.log('RabbitMQ Producer Channel Created');
         return channel;

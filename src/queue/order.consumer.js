@@ -1,3 +1,4 @@
+require('dotenv').config()
 const amqp = require('amqplib');
 const prisma = require('../db');
 const nodemailer = require('../utils/mailer')
@@ -7,7 +8,7 @@ const QUEUE_NAME = 'order_payment';
 async function startOrderWorker() {
     try {
         console.log('Order Worker connecting to RabbitMQ...');
-        const connection = await amqp.connect('amqp://localhost');
+        const connection = await amqp.connect(process.env.RABBITMQ_URL || 'amqp://localhost');
         const channel = await connection.createChannel();
         
         await channel.assertQueue(QUEUE_NAME, { durable: true });
