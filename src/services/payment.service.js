@@ -17,10 +17,11 @@ function createPaymentService({orderRepo}){
             }
 
             const grossAmount = order.sellingPrice * order.quantity
+            const UniqueOrderId = `ORDER-${order.id}-${Date.now()}`
 
             const parameter ={
                 transaction_details:{
-                    order_id:`ORDER-${order.id}`,
+                    order_id:UniqueOrderId,
                     gross_amount:grossAmount
                 },
                 customer_details:{
@@ -34,7 +35,8 @@ function createPaymentService({orderRepo}){
             try{
                 const result = await snap.transaction.notification(notification)
 
-                const orderId = parseInt(result.order_id.replace('ORDER-',''))
+                const parts = result.order_id.split('-')
+                const orderId = parseInt(parts[1])
 
                 if (!['settlement', 'capture'].includes(result.transaction_status)) {
                     return result
