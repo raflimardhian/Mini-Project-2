@@ -1,0 +1,40 @@
+{
+  "name": "mini-project-2-rafli",
+  "version": "1.0.0",
+  "description": "Pada mini project kali ini, saya membuat REST API menggunakan expressJS untuk mengimplementasikan system reseller order pada suatu toko, dimana terdapat 3 role user yaitu owner, reseller, dan buyer. Owner adalah selaku pemilik usaha, reseller adalah orang yang ingin menjual ulang product yang dimiliki oleh owner, dan buyer adalah orang yang membeli prudct yang dijual reseller.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dns-js/Mini-Project-2-Rafli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dns-js/Mini-Project-2-Rafli/issues"
+  },
+  "homepage": "https://github.com/dns-js/Mini-Project-2-Rafli#readme",
+  "dependencies": {
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.3.0",
+    "amqplib": "^0.10.9",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "jest": "^30.2.0",
+    "joi": "^18.0.2",
+    "jsonwebtoken": "^9.0.3",
+    "midtrans-client": "^1.4.3",
+    "nodemailer": "^7.0.13",
+    "nodemon": "^3.1.11",
+    "pg": "^8.18.0",
+    "prisma": "^7.3.0",
+    "redis": "^5.10.0",
+    "winston": "^3.19.0"
+  }
+}

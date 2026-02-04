@@ -1,0 +1,150 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+model User {
+  id                  Int      @id @default(autoincrement())
+  email               String   @unique
+  password            String
+  balanceCommission   Int      @default(0)
+  role                Role     @default(BUYER)
+  verified            Boolean  @default(false)
+  otp                 String?
+  otpExpiredAt        DateTime?
+
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  etalases          Etalase[]   
+  products            Product[]         @relation("OwnerProducts")
+  resellerProducts    ResellerProduct[]
+  commissionHistory   CommissionLog[]
+  orders              Order[]
+}
+
+model Product {
+  id               Int      @id @default(autoincrement())
+  name             String
+  description      String?
+  basePrice        Int      
+  stock            Int
+  isActive         Boolean  @default(true)
+
+  ownerId          Int
+  owner            User     @relation("OwnerProducts", fields: [ownerId], references: [id])
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  resellerProducts ResellerProduct[]
+}
+
+model ResellerProduct {
+  id           Int      @id @default(autoincrement())
+
+  resellerId   Int
+  productId    Int
+
+  basePrice    Int      
+  sellingPrice Int      
+  isActive     Boolean  @default(true)
+  etalases     EtalaseProduct[] 
+
+  reseller     User     @relation(fields: [resellerId], references: [id])
+  product      Product  @relation(fields: [productId], references: [id])
+
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  
+  orders       Order[]
+}
+
+model Order {
+  id                 Int      @id @default(autoincrement())
+
+  buyerId            Int
+  resellerProductId  Int
+
+  quantity           Int
+  sellingPrice       Int
+  basePrice          Int
+  resellerCommission Int
+  paymentMethod      String?
+  commissionHistory  CommissionLog[]
+  status             OrderStatus @default(UNPAID)
+  buyer              User            @relation(fields: [buyerId], references: [id])
+  resellerProduct    ResellerProduct @relation(fields: [resellerProductId], references: [id])
+
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}
+
+model CommissionLog {
+  id          Int      @id @default(autoincrement())
+  userId      Int
+  orderId     Int
+  amount      Int
+  type        CommissionType @default(PENDING)
+  createdAt   DateTime @default(now())
+
+  user        User     @relation(fields: [userId], references: [id])
+  order       Order    @relation(fields: [orderId], references: [id])
+}
+
+model Etalase {
+  id          Int      @id @default(autoincrement())
+  name        String
+  resellerId  Int
+  isActive    Boolean  @default(true)
+  startAt     DateTime?
+  endAt       DateTime?
+
+  reseller    User     @relation(fields: [resellerId], references: [id])
+  products    EtalaseProduct[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EtalaseProduct {
+  id                Int @id @default(autoincrement())
+  etalaseId         Int
+  resellerProductId Int
+
+  etalase           Etalase         @relation(fields: [etalaseId], references: [id])
+  resellerProduct   ResellerProduct @relation(fields: [resellerProductId], references: [id])
+
+  @@unique([etalaseId, resellerProductId])
+}
+
+
+
+enum CommissionType {
+  EARNED
+  PENDING
+}
+
+
+enum Role {
+  ADMIN
+  OWNER
+  RESELLER
+  BUYER
+}
+
+enum OrderStatus {
+  COMPLETED
+  PAID
+  UNPAID
+}
