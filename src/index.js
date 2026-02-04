@@ -91,6 +91,12 @@ app.use('/payment', paymentRoutes({paymentController, authMiddleware}))
 app.use(errorHandler)
 module.exports = app
 
+app.get('/', (req, res)=>{
+    res.json({
+        message:"Hello"
+    })
+})
+
 
 app.listen(PORT, ()=>{
     console.log(`Listening to port: ${PORT}`);
