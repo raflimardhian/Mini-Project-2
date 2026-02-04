@@ -27,6 +27,9 @@ function createAuthService({userRepo, security, generator, nodemailer}){
             if(!user){
                 throw apiError(404,"NOT_FOUND","User not found",{expected: "Registered username",received: username})
             }
+            if(!user.verified){
+                throw new apiError(403,"UNVERIFIED_ACCOUNT", 'Account need verification', 'Please check your email inbox for OTP verification')
+            }
 
             const isMatch = await security.verifyPassword(password, user.password)
             if(!isMatch){
