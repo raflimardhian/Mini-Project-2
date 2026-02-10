@@ -1,7 +1,7 @@
 const Joi = require("joi");
 
 const createUserSchema = Joi.object({
-    username: Joi.string()
+    email: Joi.string()
         .min(3)
         .max(50)
         .required(),
@@ -12,7 +12,7 @@ const createUserSchema = Joi.object({
 });
 
 const updateUserSchema = Joi.object({
-    username: Joi.string()
+    email: Joi.string()
         .min(3)
         .max(50)
         .optional(),

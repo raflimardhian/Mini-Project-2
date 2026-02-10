@@ -48,8 +48,18 @@
             "description": "Everything about order"
         }
     ],
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT",
+                "description": "Your token active for 1 hour"
+            }
+        }
+    },
     "paths":{
-        "/user/":{
+        "/users/":{
             "post":{
                 "tags":[
                     "User"
@@ -57,20 +67,24 @@
                 "summary": "Creating user account",
                 "description": "Creating account from user endpoint",
                 "operationId": "createUser",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],  
                 "requestBody":{
                     "content":{
                         "application/json":{
                             "schema":{
-                                "$ref": "#/components/schema/createUser",
                                 "type":"object",
                                 "properties":{
                                     "email":{
-                                        "type":"string",
-                                        "example":"saya@gmail.com"
-                                    },
+                                            "type":"string",
+                                            "example":"saya@gmai.com"
+                                        },
                                     "password":{
                                         "type":"string",
-                                        "example": "Saya123"
+                                        "example":"Saya123"
                                     }
                                 }
                             }
@@ -88,17 +102,17 @@
                                         "status":{
                                             "type":"string",
                                             "example":"Create account successfully"
-                                        }
-                                    },
-                                    "data":{
-                                        "type":"object",
-                                        "properties":{
-                                            "user":{
-                                                "$ref":"#/components/schema/createUser"
-                                            },
-                                            "token":{
-                                                "type":"string",
-                                                "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZkNjg5MjAzLWFkNzgtNDQ0Ny05NjYwLTk0MDU3MjQ1NDdkNCIsImVtYWlsIjoic2F5YWFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjM4MDE3Mn0.N2X1rFLTYMzonoJuVZ5rVy2IBqHIAt6CrvGQWPSeBl0"
+                                        },
+                                        "data":{
+                                            "type":"object",
+                                            "properties":{
+                                                "user":{
+                                                    "$ref":"./components/user.json#/CreateUser"
+                                                },
+                                                "token":{
+                                                    "type":"string",
+                                                    "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZkNjg5MjAzLWFkNzgtNDQ0Ny05NjYwLTk0MDU3MjQ1NDdkNCIsImVtYWlsIjoic2F5YWFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjM4MDE3Mn0.N2X1rFLTYMzonoJuVZ5rVy2IBqHIAt6CrvGQWPSeBl0"
+                                                }
                                             }
                                         }
                                     }
@@ -115,6 +129,11 @@
                 "summary":"Get all user",
                 "description":"Get all user data",
                 "operationId":"getUser",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],  
                 "responses":{
                     "200":{
                         "description":"Get all user",
@@ -140,7 +159,7 @@
                 }
             }
         },
-        "/user/:id":{
+        "/users/{id}":{
             "get":{
                 "tags":[
                     "User"
@@ -148,6 +167,23 @@
                 "summary":"Get user by id",
                 "description":"Get detail user data by id",
                 "operationId":"getUserById",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"User id",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "example":1
+                        }
+                    }
+                ],  
                 "responses":{
                     "200":{
                         "description":"Get data by user id success",
@@ -178,6 +214,23 @@
                 "summary":"Updating user",
                 "description":"Updating user data",
                 "operationId":"updateUser",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"User id",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "example":1
+                        }
+                    }
+                ],    
                 "requestBody":{
                     "content":{
                         "application/json":{
@@ -223,6 +276,23 @@
                 "summary":"Delete user",
                 "description":"Delete user by id",
                 "operationId":"deleteUser",
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters":[
+                    {
+                        "name":"id",
+                        "in":"path",
+                        "description":"User id",
+                        "required":true,
+                        "schema":{
+                            "type":"integer",
+                            "example":1
+                        }
+                    }
+                ],  
                 "responses":{
                     "200":{
                         "description":"Delete user by id",
