@@ -1,0 +1,251 @@
+{
+    "openapi": "3.0.3",
+    "info":{
+        "title": "Mini Project 2 Deployment",
+        "description": "Mini Project ini merupakan REST API yang dibangun menggunakan Express.js untuk mengimplementasikan sistem reseller order pada sebuah toko.",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact":{
+            "email":"raflimardhian02@gmail.com"
+        }
+    },
+    "servers":[
+        {
+            "url": "https://mini-project-2.vercel.app",
+            "description": "Production server"
+        },
+        {
+            "url": " https://unglutinously-uncavalier-claretha.ngrok-free.dev",
+            "description": "Stagging Server"
+        },
+        {
+            "url": "http://localhost:3000/",
+            "description": "Development server"
+        }
+    ],
+    "tags":[
+        {
+            "name": "User",
+            "description": "Everything about user"
+        },
+        {
+            "name": "Product",
+            "description": "Everything when you want to create new product"
+        },
+        {
+            "name": "Reseller",
+            "description": "Everything when you want to resell product"
+        },
+        {
+            "name": "Etalase",
+            "description": "Everything when you want to create etalase for your resell product"
+        },
+        {
+            "name": "Etalase Product",
+            "description": "Everything when you want to add your product to the etalase"
+        },
+        {
+            "name": "Order",
+            "description": "Everything about order"
+        }
+    ],
+    "paths":{
+        "/user/":{
+            "post":{
+                "tags":[
+                    "User"
+                ],
+                "summary": "Creating user account",
+                "description": "Creating account from user endpoint",
+                "operationId": "createUser",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "$ref": "#/components/schema/createUser",
+                                "type":"object",
+                                "properties":{
+                                    "email":{
+                                        "type":"string",
+                                        "example":"saya@gmail.com"
+                                    },
+                                    "password":{
+                                        "type":"string",
+                                        "example": "Saya123"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "201":{
+                        "description": "Success created new user",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "status":{
+                                            "type":"string",
+                                            "example":"Create account successfully"
+                                        }
+                                    },
+                                    "data":{
+                                        "type":"object",
+                                        "properties":{
+                                            "user":{
+                                                "$ref":"#/components/schema/createUser"
+                                            },
+                                            "token":{
+                                                "type":"string",
+                                                "example":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZkNjg5MjAzLWFkNzgtNDQ0Ny05NjYwLTk0MDU3MjQ1NDdkNCIsImVtYWlsIjoic2F5YWFkbWluQGdtYWlsLmNvbSIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTY4NjM4MDE3Mn0.N2X1rFLTYMzonoJuVZ5rVy2IBqHIAt6CrvGQWPSeBl0"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "get":{
+                "tags":[
+                    "User"
+                ],
+                "summary":"Get all user",
+                "description":"Get all user data",
+                "operationId":"getUser",
+                "responses":{
+                    "200":{
+                        "description":"Get all user",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"string",
+                                            "example": true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example": "Get all user data success"
+                                        }
+                                        
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/user/:id":{
+            "get":{
+                "tags":[
+                    "User"
+                ],
+                "summary":"Get user by id",
+                "description":"Get detail user data by id",
+                "operationId":"getUserById",
+                "responses":{
+                    "200":{
+                        "description":"Get data by user id success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"string",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Get data by user id success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put":{
+                "tags":[
+                    "User"
+                ],
+                "summary":"Updating user",
+                "description":"Updating user data",
+                "operationId":"updateUser",
+                "requestBody":{
+                    "content":{
+                        "application/json":{
+                            "schema":{
+                                "type":"object",
+                                "properties":{
+                                    "email":{
+                                        "type":"string",
+                                        "example":"sayaUpdate@gmail.com"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "200":{
+                        "description": "Updating user data success",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example":"Update user data success"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "tags":[
+                    "User"
+                ],
+                "summary":"Delete user",
+                "description":"Delete user by id",
+                "operationId":"deleteUser",
+                "responses":{
+                    "200":{
+                        "description":"Delete user by id",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "type":"object",
+                                    "properties":{
+                                        "success":{
+                                            "type":"boolean",
+                                            "example":true
+                                        },
+                                        "message":{
+                                            "type":"string",
+                                            "example": "Delete user successfully"
+                                        }   
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }    
+    }
+}

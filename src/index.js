@@ -2,12 +2,14 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const PORT = process.env.PORT || 4500
+const swagger = require('swagger-ui-express')
 
 const redisClient = require('./utils/redis')
 const prisma = require('./db')
 const generator = require('./utils/generated')
 const nodemailer = require('./utils/mailer')
 const midtrans = require('./utils/midtrans')
+const swaggerDocument = require('../docs/swagger.json')
 
 const createSecurity = require('./utils/security')
 const createAuthMiddleware = require('./middleware/authentication')
@@ -87,6 +89,8 @@ app.use('/resell', resellerRoutes({resellerController, authMiddleware, checkRole
 app.use('/etalase',etalaseRoutes({etalaseController, authMiddleware, checkRole}))
 app.use('/etalaseProduct', etalaseProductRoutes({etalaseProductController, authMiddleware, checkRole}))
 app.use('/payment', paymentRoutes({paymentController, authMiddleware}))
+app.use('/api-docs', swagger.serve)
+app.use('/api-docs', swagger.setup(swaggerDocument))
 
 app.use(errorHandler)
 module.exports = app
